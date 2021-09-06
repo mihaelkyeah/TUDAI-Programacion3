@@ -70,8 +70,6 @@ public class TreeWithNode {
 		return this.root == null;
 	}
 	
-	// TODO public void delete(int value) {}
-	
 	public int getHeight() {
 		return this.getHeight(this.root);
 	}
@@ -100,18 +98,43 @@ public class TreeWithNode {
 		
 	}
 	
-	public void printPosOrder() {
-		this.printPosOrder(this.root);
+	// Borrado
+	
+	public boolean delete(Integer value) {
+		if(this.hasElem(value))
+			return this.delete(value, this.root);
+		else
+			return false;
 	}
 	
-	private void printPosOrder(TreeNode current) {
-		if (current == null) 
-			return;
+	private boolean delete(Integer value, TreeNode current) {
 		
-		printInOrder(current.getLeft()); 
-		printInOrder(current.getRight());
-		System.out.print(current.getValue() + " ");
+		switch (this.nodeType(current)) {
+		case "root":
+				
+			break;
+		
+		case "leaf":
+				
+			break;
+			
+		case "subtree":
+				
+			break;
+			
+		case "parent":
+				
+			break;
+			
+		default:
+			break;
+		}
+		
+		return true;
+		
 	}
+	
+	// Métodos de impresión
 	
 	public void printPreOrder() {
 		this.printPreOrder(this.root);
@@ -128,6 +151,19 @@ public class TreeWithNode {
 		printPreOrder(current.getRight());
 	}
 	
+	public void printPosOrder() {
+		this.printPosOrder(this.root);
+	}
+	
+	private void printPosOrder(TreeNode current) {
+		if (current == null) 
+			return;
+		
+		printInOrder(current.getLeft()); 
+		printInOrder(current.getRight());
+		System.out.print(current.getValue() + " ");
+	}
+	
 	public void printInOrder() {
 		this.printInOrder(this.root);
 	}
@@ -141,4 +177,40 @@ public class TreeWithNode {
 		printInOrder(current.getRight());
 	}
 	
+	// Métodos auxiliares
+	
+	private String nodeType(TreeNode current) {
+		if(current.getValue() == this.getRoot())
+			return "root";
+		else {
+			if(current.getLeft() == null && current.getRight() == null)
+				return "leaf";
+			else
+				{
+				if(current.getLeft() != null && current.getRight() != null)
+					return "parent";
+				else
+					return "subtree";
+				}
+		}
+	}
+	
+	private void deleteLeaf(Integer value, TreeNode current) {
+		if(current.getLeft() != null && current.getLeft().getValue() == value)
+			current.setLeft(null);
+		else
+			current.setRight(null);
+	}
+	
+	private void deleteSubTree(Integer value, TreeNode Current) {
+		// TODO: Delete subtree
+	}
+	
+	private void deleteParent(Integer value, TreeNode Current) {
+		// TODO: Delete parent
+	}
+	
+	private void deleteRoot(Integer value, TreeNode Current) {
+		// TODO: Delete root
+	}
 }
