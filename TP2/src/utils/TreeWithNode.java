@@ -1,5 +1,8 @@
 package utils;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class TreeWithNode {
 
 	private TreeNode root;
@@ -17,6 +20,8 @@ public class TreeWithNode {
 	public TreeWithNode(int value) {
 		this.add(value);
 	}
+	
+	// === Agregado ===
 	
 	public void add(Integer value) {
 		if (this.root == null)
@@ -42,6 +47,8 @@ public class TreeWithNode {
 			}
 		}
 	}
+	
+	// === Datos del árbol ===
 	
 	public Integer getRoot() {
 		return this.root.getValue();
@@ -97,6 +104,104 @@ public class TreeWithNode {
 		// ANDUVICIONÓ!!! :DDDD
 		
 	}
+	
+	public Integer getMaxElem() {
+		return this.getMaxElem(this.root);
+	}
+	
+	private Integer getMaxElem(TreeNode current) {
+		int maxElement = 0;
+		
+		if(current.getRight() != null) {
+			maxElement = this.getMaxElem(current.getRight());
+		}
+		if(current.getLeft() != null) {
+			maxElement = this.getMaxElem(current.getLeft());
+		}
+		
+		if(current.getValue() > maxElement)
+			maxElement = current.getValue();
+		
+		return maxElement;
+		
+		// NO ANDA D:
+	}
+	
+	// === Retorno de listas de nodos/valores ===
+	
+	public List<TreeNode> getLongestBranch() {
+		return this.getLongestBranch(this.root);
+	}
+	
+	private List<TreeNode> getLongestBranch(TreeNode current) {
+		
+		// Se declaran dos listas auxiliares
+		List<TreeNode> auxLeft = new ArrayList<>();
+		List<TreeNode> auxRight = new ArrayList<>();
+		
+		// Recorre y agrega hacia la izquierda
+		auxLeft.add(current);
+		if(current.getLeft() != null)
+			auxLeft.addAll(this.getLongestBranch(current.getLeft()));
+		
+		// Recorre y agrega hacia la derecha
+		auxRight.add(current);
+		if(current.getRight() != null)
+			auxRight.addAll(this.getLongestBranch(current.getRight()));	
+		
+		// Compara el arreglo más grande para devolverlo
+		if(auxLeft.size() > auxRight.size())
+			return auxLeft;
+		else
+			return auxRight;
+	}
+	
+	public List<TreeNode> getFrontier() {
+		return this.getFrontier(this.root);
+	}
+	
+	private List<TreeNode> getFrontier(TreeNode current) {
+		List<TreeNode> aux = new ArrayList<>();
+		
+		if(this.nodeType(current) != "leaf") {
+			if(current.getLeft() != null)
+				aux.addAll(this.getFrontier(current.getLeft()));
+			if(current.getRight() != null)
+				aux.addAll(this.getFrontier(current.getRight()));
+		}
+		else
+			aux.add(current);
+		
+		return aux;
+	}
+	
+	public List<TreeNode> getElemAtLevel(int level) {
+		return this.getElemAtLevel(level, 0, this.root);
+	}
+	
+	private List<TreeNode> getElemAtLevel(int level, int currentLevel, TreeNode current) {
+		List<TreeNode> aux = new ArrayList<>();
+		
+		if(currentLevel < level) {
+			if(current.getLeft() != null)
+				aux.addAll(this.getElemAtLevel(level, currentLevel+1, current.getLeft()));
+			if(current.getRight() != null)
+				aux.addAll(this.getElemAtLevel(level, currentLevel+1, current.getRight()));
+		}
+		else
+			aux.add(current);
+		
+		return aux;
+	}
+	
+	/* TODO:::
+	 * Dado un árbol retornar una lista
+	 * donde cada elemento es el valor de
+	 * la suma del camino desde la raíz hacia una hoja determinada.
+	 * Por ejemplo,
+	 * para el árbol del caso anterior la lista resultante sería:
+	 * [15, 17, 19, 40, 45]
+	 */
 	
 	// Borrado
 	
