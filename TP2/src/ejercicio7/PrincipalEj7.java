@@ -17,8 +17,8 @@ public class PrincipalEj7 {
 		
 		*/
 		
-		System.out.println("Altura del árbol:");
-		System.out.println(myTree1.getHeight());
+//		System.out.println("Altura del árbol:");
+//		System.out.println(myTree1.getHeight());
 		
 		// TreeWithNode myTree2 = new TreeWithNode(1);
 		myTree1.printPreOrder();
@@ -29,11 +29,17 @@ public class PrincipalEj7 {
 		
 		// Anduvo a la primera 8-)
 		
-		System.out.println(myTree1.getElemAtLevel(2));
+		// System.out.println(myTree1.getElemAtLevel(2));
 		
 		// ANDA :D
 		
-		System.out.println(myTree1.getMaxElem());
+		// System.out.println(myTree1.getMaxElem());
+		
+		// ANDA! ^O^
+		
+		myTree1.delete(3);
+		
+		myTree1.printPreOrder();
 		
 	}
 

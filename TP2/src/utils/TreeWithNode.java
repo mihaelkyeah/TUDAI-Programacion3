@@ -30,20 +30,22 @@ public class TreeWithNode {
 			this.add(this.root,value);
 	}
 	
-	private void add(TreeNode actual, Integer value) {
-		if (actual.getValue() > value) {
-			if (actual.getLeft() == null) { 
+	private void add(TreeNode current, Integer value) {
+		if (current.getValue() > value) {
+			if (current.getLeft() == null) { 
 				TreeNode temp = new TreeNode(value);
-				actual.setLeft(temp);
+				current.setLeft(temp);
+				temp.setParent(current);
 			} else {
-				add(actual.getLeft(),value);
+				add(current.getLeft(),value);
 			}
-		} else if (actual.getValue() < value) {
-			if (actual.getRight() == null) { 
+		} else if (current.getValue() < value) {
+			if (current.getRight() == null) { 
 				TreeNode temp = new TreeNode(value);
-				actual.setRight(temp);
+				current.setRight(temp);
+				temp.setParent(current);
 			} else {
-				add(actual.getRight(),value);
+				add(current.getRight(),value);
 			}
 		}
 	}
@@ -110,21 +112,13 @@ public class TreeWithNode {
 	}
 	
 	private Integer getMaxElem(TreeNode current) {
-		int maxElement = 0;
 		
-		if(current.getRight() != null) {
-			maxElement = this.getMaxElem(current.getRight());
-		}
-		if(current.getLeft() != null) {
-			maxElement = this.getMaxElem(current.getLeft());
-		}
+		if(current.getRight() != null)
+			return this.getMaxElem(current.getRight());
 		
-		if(current.getValue() > maxElement)
-			maxElement = current.getValue();
+		return current.getValue();
 		
-		return maxElement;
-		
-		// NO ANDA D:
+		// Ahora sí anda 8-)
 	}
 	
 	// === Retorno de listas de nodos/valores ===
@@ -206,37 +200,39 @@ public class TreeWithNode {
 	// Borrado
 	
 	public boolean delete(Integer value) {
-		if(this.hasElem(value))
-			return this.delete(value, this.root);
+		if(value == this.getRoot())
+			return this.deleteRoot(this.root);
 		else
-			return false;
+			return this.delete(value, this.root);
 	}
 	
 	private boolean delete(Integer value, TreeNode current) {
 		
-		switch (this.nodeType(current)) {
-		case "root":
-				
-			break;
-		
-		case "leaf":
-				
-			break;
-			
-		case "subtree":
-				
-			break;
-			
-		case "parent":
-				
-			break;
-			
-		default:
-			break;
+		if(value != current.getLeft().getValue() && value != current.getRight().getValue()) {
+			if(value > current.getValue())
+				return this.delete(value, current.getRight());
+			else
+				return this.delete(value, current.getLeft());
 		}
-		
-		return true;
-		
+		else {
+			switch (this.nodeType(current)) {
+			case "leaf": {
+				System.out.println(current.getValue());
+				this.deleteLeaf(value, current);
+			}
+				break;
+			case "subtree":
+				this.deleteSubTree(value, current);
+				break;
+			case "parent":
+				this.deleteParent(value, current);
+				break;
+			default:
+				break;
+			}
+			
+			return true;
+		}
 	}
 	
 	// Métodos de impresión
@@ -285,37 +281,81 @@ public class TreeWithNode {
 	// Métodos auxiliares
 	
 	private String nodeType(TreeNode current) {
-		if(current.getValue() == this.getRoot())
-			return "root";
-		else {
-			if(current.getLeft() == null && current.getRight() == null)
-				return "leaf";
+		
+		if(current.getLeft() == null && current.getRight() == null)
+			return "leaf";
+		else
+			{
+			if(current.getLeft() != null && current.getRight() != null)
+				return "parent";
 			else
-				{
-				if(current.getLeft() != null && current.getRight() != null)
-					return "parent";
-				else
-					return "subtree";
-				}
-		}
+				return "subtree";
+			}
 	}
 	
 	private void deleteLeaf(Integer value, TreeNode current) {
-		if(current.getLeft() != null && current.getLeft().getValue() == value)
-			current.setLeft(null);
+		if(current.getParent().getLeft().getValue() == value)
+			current.getParent().setLeft(null);
+		else if(current.getParent().getRight().getValue() == value)
+			current.getParent().setRight(null);
+//		if(current.getLeft() != null && current.getLeft().getValue() == value)
+//			current.setLeft(null);
+//		else if(current.getRight() != null && current.getRight().getValue() == value)
+//			current.setRight(null);
+	}
+	
+	private void deleteSubTree(Integer value, TreeNode current) {
+		if(current.getLeft() == null) {
+			this.exchangeNodeRight(current);
+		}
+		else {
+			this.exchangeNodeLeft(current);
+		}
+	}
+	
+	private boolean deleteParent(Integer value, TreeNode current) {
+		
+		if(value < current.getValue()) {
+			if(current.getLeft().getLeft() != null)
+				return deleteParent(value, current.getLeft());
+			this.exchangeNodeLeft(current);
+			return true;
+		}
+		else if (value > current.getValue()){
+			if(current.getRight().getRight() != null)
+				deleteParent(value, current.getRight());
+			this.exchangeNodeRight(current);
+			return true;
+		}
 		else
-			current.setRight(null);
+			return false;
 	}
 	
-	private void deleteSubTree(Integer value, TreeNode Current) {
-		// TODO: Delete subtree
+	private boolean deleteRoot(TreeNode current) {
+		
+		if(current.getLeft().getRight() != null) {
+			Integer aux = current.getLeft().getRight().getValue();
+			current.getLeft().setRight(null);
+			current.setValue(aux);
+			return true;
+		}
+		else {
+			if(current.getLeft() != null)
+				return this.deleteRoot(current.getLeft());
+		}
+		
+		return false;
 	}
 	
-	private void deleteParent(Integer value, TreeNode Current) {
-		// TODO: Delete parent
+	private void exchangeNodeLeft(TreeNode current) {
+		TreeNode aux = current.getLeft();
+		current.setLeft(null);
+		current = aux;
 	}
 	
-	private void deleteRoot(Integer value, TreeNode Current) {
-		// TODO: Delete root
+	private void exchangeNodeRight(TreeNode current) {
+		TreeNode aux = current.getRight();
+		current.setRight(null);
+		current = aux;
 	}
 }
