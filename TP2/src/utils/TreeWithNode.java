@@ -58,16 +58,21 @@ public class TreeWithNode {
 	
 	// Complejidad: O(1)
 	public Integer getRoot() {
+		if(this.root == null)
+			return null;
 		return this.root.getValue();
 	}
 	
 	// Complejidad: O(h) donde h es la altura del árbol	
 	public boolean hasElem(Integer elem) {
+		if(this.root == null)
+			return false;
 		return this.hasElem(this.root, elem);
 	}
 	
 	// Complejidad: O(h) donde h es la altura del árbol
 	private boolean hasElem(TreeNode currentNode, Integer elem) {
+		
 		if(currentNode == null)
 			return false;
 		else {
@@ -89,6 +94,8 @@ public class TreeWithNode {
 	
 	// Complejidad: O(n) donde n es la cantidad de nodos del árbol	
 	public int getHeight() {
+		if(this.root == null)
+			return 0;
 		return this.getHeight(this.root);
 	}
 	
@@ -118,6 +125,8 @@ public class TreeWithNode {
 	
 	// Complejidad: O(h) donde h es la altura del árbol hacia la derecha	
 	public Integer getMaxElem() {
+		if(this.root == null)
+			return null;
 		return this.getMaxElem(this.root);
 	}
 	
@@ -133,6 +142,8 @@ public class TreeWithNode {
 	
 	// Complejidad: O(n) donde n es la cantidad de nodos del árbol	
 	public List<TreeNode> getLongestBranch() {
+		if(this.root == null)
+			return null;
 		return this.getLongestBranch(this.root);
 	}
 	
@@ -160,6 +171,8 @@ public class TreeWithNode {
 	}
 	
 	public List<TreeNode> getFrontier() {
+		if(this.root == null)
+			return null;
 		return this.getFrontier(this.root);
 	}
 	
@@ -179,6 +192,8 @@ public class TreeWithNode {
 	
 	// Complejidad: O(h) donde h es la altura del árbol
 	public List<TreeNode> getElemAtLevel(int level) {
+		if(this.root == null)
+			return null;
 		return this.getElemAtLevel(level, 0, this.root);
 	}
 	
@@ -207,6 +222,8 @@ public class TreeWithNode {
 	
 	// Complejidad: O(n) donde n es la cantidad de nodos del árbol
 	public List<Integer> getPathSumList() {
+		if(this.root == null)
+			return null;
 		return this.getPathSumList(this.root,0);
 	}
 	
@@ -228,6 +245,8 @@ public class TreeWithNode {
 	
 	// Complejidad: O(h) donde h es la altura del árbol
 	public boolean delete(Integer value) {
+		if(this.root == null)
+			return false;
 		if(value == this.getRoot()) {
 			return this.deleteRoot();
 		}
@@ -330,20 +349,27 @@ public class TreeWithNode {
 	
 	// Complejidad: O(1)
 	private void deleteLeaf(Integer value, TreeNode current) {
-		if(current.getParent().getLeft().getValue() == value)
-			current.getParent().setLeft(null);
-		else if(current.getParent().getRight().getValue() == value)
-			current.getParent().setRight(null);
+		if(current.getParent().getLeft() != null)
+			if(current.getParent().getLeft().getValue() == value)
+				current.getParent().setLeft(null);
+		
+		if(current.getParent().getRight() != null)
+			if(current.getParent().getRight().getValue() == value)
+					current.getParent().setRight(null);
 		// ANDA! :DDDDDDDDDDD
 	}
 	
 	// Complejidad: O(1)
 	private void deleteSubTree(Integer value, TreeNode current) {
-		if(current.getParent().getLeft().getValue() == value)
-			this.exchangeNodeLeft(current);
-		else if(current.getParent().getRight().getValue() == value)
-			this.exchangeNodeRight(current);
+		if(current.getParent().getLeft() != null)
+			if(current.getParent().getLeft().getValue() == value)
+				this.exchangeNodeLeft(current);
+		
+		if(current.getParent().getRight() != null)
+			if(current.getParent().getRight().getValue() == value)
+				this.exchangeNodeRight(current);
 		// FELIIZ DOMIIINGOO PARA TOOODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOs :)
+		// Arreglado en clase :')
 	}
 	
 	// Complejidad: O(1)
