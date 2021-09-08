@@ -305,8 +305,10 @@ public class TreeWithNode {
 	private void deleteSubTree(Integer value, TreeNode current) {
 		if(current.getParent().getLeft().getValue() == value)
 			this.exchangeNodeLeft(current);
-		if(current.getParent().getRight().getValue() == value)
+		else if(current.getParent().getRight().getValue() == value)
 			this.exchangeNodeRight(current);
+		
+		// FELIIZ DOMIIINGOO PARA TOOODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOs :)
 	}
 	
 	private boolean deleteParent(Integer value, TreeNode current) {
@@ -339,7 +341,6 @@ public class TreeWithNode {
 			if(current.getLeft() != null)
 				return this.deleteRoot(current.getLeft());
 		}
-		
 		return false;
 	}
 	

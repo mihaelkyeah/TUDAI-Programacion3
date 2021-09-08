@@ -22,8 +22,8 @@ public class PrincipalEj7 {
 		
 		// TreeWithNode myTree2 = new TreeWithNode(1);
 		
-		myTree1.add(24);
-		myTree1.add(23);
+		myTree1.add(6);
+		myTree1.add(5);
 		
 		myTree1.printPreOrder();
 		System.out.println();
@@ -41,10 +41,10 @@ public class PrincipalEj7 {
 		
 		// ANDA! ^O^
 		
-		myTree1.delete(25);
+		myTree1.delete(6);
 		myTree1.printPreOrder();
 		System.out.println();
-		myTree1.delete(24);
+		myTree1.delete(7);
 		
 		myTree1.printPreOrder();
 		
