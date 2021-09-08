@@ -208,31 +208,35 @@ public class TreeWithNode {
 	
 	private boolean delete(Integer value, TreeNode current) {
 		
-		if(value != current.getValue() && value != current.getValue()) {
-			if(value > current.getValue())
-				return this.delete(value, current.getRight());
-			else
-				return this.delete(value, current.getLeft());
-		}
-		else {
-			switch (this.nodeType(current)) {
-			case "leaf": {
-				System.out.println(current.getValue());
-				this.deleteLeaf(value, current);
+		if(current != null) {
+			if(value != current.getValue()) {
+				if(value > current.getValue())
+					return this.delete(value, current.getRight());
+				else
+					return this.delete(value, current.getLeft());
 			}
-				break;
-			case "subtree":
-				this.deleteSubTree(value, current);
-				break;
-			case "parent":
-				this.deleteParent(value, current);
-				break;
-			default:
-				break;
+			else {
+				switch (this.nodeType(current)) {
+				case "leaf": {
+					System.out.println(current.getValue());
+					this.deleteLeaf(value, current);
+				}
+					break;
+				case "subtree":
+					this.deleteSubTree(value, current);
+					break;
+				case "parent":
+					this.deleteParent(value, current);
+					break;
+				default:
+					break;
+				}
+				
+				return true;
 			}
-			
-			return true;
 		}
+		else
+			return false;
 	}
 	
 	// Métodos de impresión
@@ -311,22 +315,14 @@ public class TreeWithNode {
 		// FELIIZ DOMIIINGOO PARA TOOODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOs :)
 	}
 	
-	private boolean deleteParent(Integer value, TreeNode current) {
+	private void deleteParent(Integer value, TreeNode current) {
+
+		Integer max = this.getMaxElem(current.getLeft());
+		current.setValue(max);
+		this.delete(max, current.getLeft());
 		
-		if(value < current.getValue()) {
-			if(current.getLeft().getLeft() != null)
-				return deleteParent(value, current.getLeft());
-			this.exchangeNodeLeft(current);
-			return true;
-		}
-		else if (value > current.getValue()){
-			if(current.getRight().getRight() != null)
-				deleteParent(value, current.getRight());
-			this.exchangeNodeRight(current);
-			return true;
-		}
-		else
-			return false;
+		// Kenny Bell :ok_hand:
+		
 	}
 	
 	private boolean deleteRoot(TreeNode current) {
