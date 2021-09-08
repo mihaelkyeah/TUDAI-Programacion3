@@ -11,6 +11,8 @@ public class TreeWithNode {
 		this.root = null;
 	}
 	
+	// Complejidad: O(n*h) donde n es el tamaño de la lista de valores
+	// y h es la altura del árbol
 	public TreeWithNode(int[] valueList) {
 		for(int i = 0; i < valueList.length; i++) {
 			this.add(valueList[i]);
@@ -22,7 +24,8 @@ public class TreeWithNode {
 	}
 	
 	// === Agregado ===
-	
+
+	// Complejidad: O(h) donde h es la altura del árbol
 	public void add(Integer value) {
 		if (this.root == null)
 			this.root = new TreeNode(value);
@@ -30,6 +33,7 @@ public class TreeWithNode {
 			this.add(this.root,value);
 	}
 	
+	// Complejidad: O(h) donde h es la altura del árbol
 	private void add(TreeNode current, Integer value) {
 		if (current.getValue() > value) {
 			if (current.getLeft() == null) { 
@@ -52,14 +56,17 @@ public class TreeWithNode {
 	
 	// === Datos del árbol ===
 	
+	// Complejidad: O(1)
 	public Integer getRoot() {
 		return this.root.getValue();
 	}
 	
+	// Complejidad: O(h) donde h es la altura del árbol	
 	public boolean hasElem(Integer elem) {
 		return this.hasElem(this.root, elem);
 	}
 	
+	// Complejidad: O(h) donde h es la altura del árbol
 	private boolean hasElem(TreeNode currentNode, Integer elem) {
 		if(currentNode == null)
 			return false;
@@ -75,14 +82,17 @@ public class TreeWithNode {
 		}
 	}
 	
+	// Complejidad: O(1)
 	public boolean isEmpty() {
 		return this.root == null;
 	}
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol	
 	public int getHeight() {
 		return this.getHeight(this.root);
 	}
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol
 	private int getHeight(TreeNode current) {
 		
 		// Se declaran dos contadores
@@ -106,10 +116,12 @@ public class TreeWithNode {
 		// ANDUVICIONÓ!!! :DDDD
 	}
 	
+	// Complejidad: O(h) donde h es la altura del árbol hacia la derecha	
 	public Integer getMaxElem() {
 		return this.getMaxElem(this.root);
 	}
 	
+	// Complejidad: O(h) donde h es la altura del árbol hacia la derecha
 	private Integer getMaxElem(TreeNode current) {
 		if(current.getRight() != null)
 			return this.getMaxElem(current.getRight());
@@ -119,10 +131,12 @@ public class TreeWithNode {
 	
 	// === Retorno de listas de nodos/valores ===
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol	
 	public List<TreeNode> getLongestBranch() {
 		return this.getLongestBranch(this.root);
 	}
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol
 	private List<TreeNode> getLongestBranch(TreeNode current) {
 		// Se declaran dos listas auxiliares
 		List<TreeNode> auxLeft = new ArrayList<>();
@@ -149,6 +163,7 @@ public class TreeWithNode {
 		return this.getFrontier(this.root);
 	}
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol
 	private List<TreeNode> getFrontier(TreeNode current) {
 		List<TreeNode> aux = new ArrayList<>();
 		if(this.nodeType(current) != "leaf") {
@@ -162,10 +177,12 @@ public class TreeWithNode {
 		return aux;
 	}
 	
+	// Complejidad: O(h) donde h es la altura del árbol
 	public List<TreeNode> getElemAtLevel(int level) {
 		return this.getElemAtLevel(level, 0, this.root);
 	}
 	
+	// Complejidad: O(h) donde h es la altura del árbol
 	private List<TreeNode> getElemAtLevel(int level, int currentLevel, TreeNode current) {
 		List<TreeNode> aux = new ArrayList<>();
 		if(currentLevel < level) {
@@ -179,7 +196,7 @@ public class TreeWithNode {
 		return aux;
 	}
 	
-	/* TODO:::
+	/* 
 	 * Dado un árbol retornar una lista
 	 * donde cada elemento es el valor de
 	 * la suma del camino desde la raíz hacia una hoja determinada.
@@ -188,10 +205,12 @@ public class TreeWithNode {
 	 * [15, 17, 19, 40, 45]
 	 */
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol
 	public List<Integer> getPathSumList() {
 		return this.getPathSumList(this.root,0);
 	}
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol
 	private List<Integer> getPathSumList(TreeNode current, Integer value) {
 		List<Integer> aux = new ArrayList<>();
 		if(this.nodeType(current) != "leaf") {
@@ -207,6 +226,7 @@ public class TreeWithNode {
 	
 	// Borrado
 	
+	// Complejidad: O(h) donde h es la altura del árbol
 	public boolean delete(Integer value) {
 		if(value == this.getRoot()) {
 			return this.deleteRoot();
@@ -215,6 +235,7 @@ public class TreeWithNode {
 			return this.delete(value, this.root);
 	}
 	
+	// Complejidad: O(h) donde h es la altura del árbol
 	private boolean delete(Integer value, TreeNode current) {
 		if(current != null) {
 			if(value != current.getValue()) {
@@ -247,10 +268,12 @@ public class TreeWithNode {
 	
 	// Métodos de impresión
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol
 	public void printPreOrder() {
 		this.printPreOrder(this.root);
 	}
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol
 	private void printPreOrder(TreeNode current) {
 		if (current == null) {
 			System.out.print(" - ");
@@ -262,10 +285,12 @@ public class TreeWithNode {
 		printPreOrder(current.getRight());
 	}
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol
 	public void printPosOrder() {
 		this.printPosOrder(this.root);
 	}
-	
+
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol	
 	private void printPosOrder(TreeNode current) {
 		if (current == null) 
 			return;
@@ -274,10 +299,12 @@ public class TreeWithNode {
 		System.out.print(current.getValue() + " ");
 	}
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol
 	public void printInOrder() {
 		this.printInOrder(this.root);
 	}
 	
+	// Complejidad: O(n) donde n es la cantidad de nodos del árbol	
 	private void printInOrder(TreeNode current) {		
 		if (current == null) 
 			return;
@@ -288,6 +315,7 @@ public class TreeWithNode {
 	
 	// Métodos auxiliares
 	
+	// Complejidad: O(1) 
 	private String nodeType(TreeNode current) {
 		if(current.getLeft() == null && current.getRight() == null)
 			return "leaf";
@@ -300,6 +328,7 @@ public class TreeWithNode {
 			}
 	}
 	
+	// Complejidad: O(1)
 	private void deleteLeaf(Integer value, TreeNode current) {
 		if(current.getParent().getLeft().getValue() == value)
 			current.getParent().setLeft(null);
@@ -308,6 +337,7 @@ public class TreeWithNode {
 		// ANDA! :DDDDDDDDDDD
 	}
 	
+	// Complejidad: O(1)
 	private void deleteSubTree(Integer value, TreeNode current) {
 		if(current.getParent().getLeft().getValue() == value)
 			this.exchangeNodeLeft(current);
@@ -316,6 +346,7 @@ public class TreeWithNode {
 		// FELIIZ DOMIIINGOO PARA TOOODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOs :)
 	}
 	
+	// Complejidad: O(1)
 	private void deleteParent(TreeNode current) {
 		Integer max = this.getMaxElem(current.getLeft());
 		current.setValue(max);
@@ -323,6 +354,7 @@ public class TreeWithNode {
 		// Kenny Bell :ok_hand:
 	}
 	
+	// Complejidad: O(1)
 	private boolean deleteRoot() {
 		switch (this.nodeType(this.root)) {
 		case "parent":
@@ -349,6 +381,7 @@ public class TreeWithNode {
 		return true;	
 	}
 	
+	// Complejidad: O(3) => O(1)
 	private void exchangeNodeLeft(TreeNode current) {
 		if(current.getLeft() != null) {
 			current.getParent().setLeft(current.getLeft());
@@ -359,7 +392,8 @@ public class TreeWithNode {
 			current.getRight().setParent(current.getParent());
 		}
 	}
-	
+
+	// Complejidad: O(3) => O(1)
 	private void exchangeNodeRight(TreeNode current) {
 		if(current.getRight() != null) {
 			current.getParent().setRight(current.getRight());

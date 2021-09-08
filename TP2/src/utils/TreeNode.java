@@ -43,6 +43,7 @@ public class TreeNode {
 	}
 	
 	// Método auxiliar creado para uso en casos particulares
+	// Complejidad: O(1)
 	public void setValue(Integer value) {
 		this.value = value;
 	}
