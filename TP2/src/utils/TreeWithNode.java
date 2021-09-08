@@ -208,7 +208,7 @@ public class TreeWithNode {
 	
 	private boolean delete(Integer value, TreeNode current) {
 		
-		if(value != current.getLeft().getValue() && value != current.getRight().getValue()) {
+		if(value != current.getValue() && value != current.getValue()) {
 			if(value > current.getValue())
 				return this.delete(value, current.getRight());
 			else
@@ -298,19 +298,15 @@ public class TreeWithNode {
 			current.getParent().setLeft(null);
 		else if(current.getParent().getRight().getValue() == value)
 			current.getParent().setRight(null);
-//		if(current.getLeft() != null && current.getLeft().getValue() == value)
-//			current.setLeft(null);
-//		else if(current.getRight() != null && current.getRight().getValue() == value)
-//			current.setRight(null);
+		
+		// ANDA! :DDDDDDDDDDD
 	}
 	
 	private void deleteSubTree(Integer value, TreeNode current) {
-		if(current.getLeft() == null) {
-			this.exchangeNodeRight(current);
-		}
-		else {
+		if(current.getParent().getLeft().getValue() == value)
 			this.exchangeNodeLeft(current);
-		}
+		if(current.getParent().getRight().getValue() == value)
+			this.exchangeNodeRight(current);
 	}
 	
 	private boolean deleteParent(Integer value, TreeNode current) {
@@ -348,14 +344,25 @@ public class TreeWithNode {
 	}
 	
 	private void exchangeNodeLeft(TreeNode current) {
-		TreeNode aux = current.getLeft();
-		current.setLeft(null);
-		current = aux;
+		if(current.getLeft() != null) {
+			current.getParent().setLeft(current.getLeft());
+			current.getLeft().setParent(current.getParent());
+		}
+		else {
+			current.getParent().setLeft(current.getRight());
+			current.getRight().setParent(current.getParent());
+		}
 	}
 	
 	private void exchangeNodeRight(TreeNode current) {
-		TreeNode aux = current.getRight();
-		current.setRight(null);
-		current = aux;
+		if(current.getRight() != null) {
+			current.getParent().setRight(current.getRight());
+			current.getRight().setParent(current.getParent());
+		}
+		else {
+			current.getParent().setRight(current.getLeft());
+			current.getLeft().setParent(current.getParent());
+		}
+		
 	}
 }
