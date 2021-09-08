@@ -104,7 +104,6 @@ public class TreeWithNode {
 			return rightHeight;
 		
 		// ANDUVICIONÓ!!! :DDDD
-		
 	}
 	
 	public Integer getMaxElem() {
@@ -112,12 +111,9 @@ public class TreeWithNode {
 	}
 	
 	private Integer getMaxElem(TreeNode current) {
-		
 		if(current.getRight() != null)
 			return this.getMaxElem(current.getRight());
-		
 		return current.getValue();
-		
 		// Ahora sí anda 8-)
 	}
 	
@@ -128,7 +124,6 @@ public class TreeWithNode {
 	}
 	
 	private List<TreeNode> getLongestBranch(TreeNode current) {
-		
 		// Se declaran dos listas auxiliares
 		List<TreeNode> auxLeft = new ArrayList<>();
 		List<TreeNode> auxRight = new ArrayList<>();
@@ -156,7 +151,6 @@ public class TreeWithNode {
 	
 	private List<TreeNode> getFrontier(TreeNode current) {
 		List<TreeNode> aux = new ArrayList<>();
-		
 		if(this.nodeType(current) != "leaf") {
 			if(current.getLeft() != null)
 				aux.addAll(this.getFrontier(current.getLeft()));
@@ -165,7 +159,6 @@ public class TreeWithNode {
 		}
 		else
 			aux.add(current);
-		
 		return aux;
 	}
 	
@@ -175,7 +168,6 @@ public class TreeWithNode {
 	
 	private List<TreeNode> getElemAtLevel(int level, int currentLevel, TreeNode current) {
 		List<TreeNode> aux = new ArrayList<>();
-		
 		if(currentLevel < level) {
 			if(current.getLeft() != null)
 				aux.addAll(this.getElemAtLevel(level, currentLevel+1, current.getLeft()));
@@ -184,7 +176,6 @@ public class TreeWithNode {
 		}
 		else
 			aux.add(current);
-		
 		return aux;
 	}
 	
@@ -197,17 +188,34 @@ public class TreeWithNode {
 	 * [15, 17, 19, 40, 45]
 	 */
 	
+	public List<Integer> getPathSumList() {
+		return this.getPathSumList(this.root,0);
+	}
+	
+	private List<Integer> getPathSumList(TreeNode current, Integer value) {
+		List<Integer> aux = new ArrayList<>();
+		if(this.nodeType(current) != "leaf") {
+			if(current.getLeft() != null)
+				aux.addAll(this.getPathSumList(current.getLeft(),value+current.getValue()));
+			if(current.getRight() != null)
+				aux.addAll(this.getPathSumList(current.getRight(),value+current.getValue()));
+		}
+		else
+			aux.add(value+current.getValue());
+		return aux;
+	}
+	
 	// Borrado
 	
 	public boolean delete(Integer value) {
-		if(value == this.getRoot())
-			return this.deleteRoot(this.root);
+		if(value == this.getRoot()) {
+			return this.deleteRoot();
+		}
 		else
 			return this.delete(value, this.root);
 	}
 	
 	private boolean delete(Integer value, TreeNode current) {
-		
 		if(current != null) {
 			if(value != current.getValue()) {
 				if(value > current.getValue())
@@ -218,7 +226,6 @@ public class TreeWithNode {
 			else {
 				switch (this.nodeType(current)) {
 				case "leaf": {
-					System.out.println(current.getValue());
 					this.deleteLeaf(value, current);
 				}
 					break;
@@ -226,12 +233,11 @@ public class TreeWithNode {
 					this.deleteSubTree(value, current);
 					break;
 				case "parent":
-					this.deleteParent(value, current);
+					this.deleteParent(current);
 					break;
 				default:
 					break;
 				}
-				
 				return true;
 			}
 		}
@@ -263,7 +269,6 @@ public class TreeWithNode {
 	private void printPosOrder(TreeNode current) {
 		if (current == null) 
 			return;
-		
 		printInOrder(current.getLeft()); 
 		printInOrder(current.getRight());
 		System.out.print(current.getValue() + " ");
@@ -276,7 +281,6 @@ public class TreeWithNode {
 	private void printInOrder(TreeNode current) {		
 		if (current == null) 
 			return;
-		
 		printInOrder(current.getLeft());
 		System.out.print(current.getValue() + " "); 
 		printInOrder(current.getRight());
@@ -285,7 +289,6 @@ public class TreeWithNode {
 	// Métodos auxiliares
 	
 	private String nodeType(TreeNode current) {
-		
 		if(current.getLeft() == null && current.getRight() == null)
 			return "leaf";
 		else
@@ -302,7 +305,6 @@ public class TreeWithNode {
 			current.getParent().setLeft(null);
 		else if(current.getParent().getRight().getValue() == value)
 			current.getParent().setRight(null);
-		
 		// ANDA! :DDDDDDDDDDD
 	}
 	
@@ -311,33 +313,40 @@ public class TreeWithNode {
 			this.exchangeNodeLeft(current);
 		else if(current.getParent().getRight().getValue() == value)
 			this.exchangeNodeRight(current);
-		
 		// FELIIZ DOMIIINGOO PARA TOOODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOs :)
 	}
 	
-	private void deleteParent(Integer value, TreeNode current) {
-
+	private void deleteParent(TreeNode current) {
 		Integer max = this.getMaxElem(current.getLeft());
 		current.setValue(max);
 		this.delete(max, current.getLeft());
-		
 		// Kenny Bell :ok_hand:
-		
 	}
 	
-	private boolean deleteRoot(TreeNode current) {
-		
-		if(current.getLeft().getRight() != null) {
-			Integer aux = current.getLeft().getRight().getValue();
-			current.getLeft().setRight(null);
-			current.setValue(aux);
-			return true;
+	private boolean deleteRoot() {
+		switch (this.nodeType(this.root)) {
+		case "parent":
+			this.deleteParent(this.root);
+			break;
+		case "leaf":
+			this.root = null;
+			break;
+		case "subtree": {
+			if(this.root.getLeft() != null) {
+				Integer aux = this.root.getLeft().getValue();
+				this.delete(aux, this.root.getLeft());
+				this.root.setValue(aux);
+			}
+			else if (this.root.getRight() != null) {
+				Integer aux = this.root.getRight().getValue();
+				this.delete(aux, this.root.getRight());
+				this.root.setValue(aux);
+			}
 		}
-		else {
-			if(current.getLeft() != null)
-				return this.deleteRoot(current.getLeft());
+		default:
+			return false;
 		}
-		return false;
+		return true;	
 	}
 	
 	private void exchangeNodeLeft(TreeNode current) {
@@ -360,6 +369,5 @@ public class TreeWithNode {
 			current.getParent().setRight(current.getLeft());
 			current.getLeft().setParent(current.getParent());
 		}
-		
 	}
 }
